@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cat Facts</title>
+  <style>
+.cat-head {
+  width: 200px;
+  height: 200px;
+  background-color: #be791f;
+  border-radius: 50%;
+  position: relative;
+}
+
+.left-ear,
+.right-ear {
+  width: 60px;
+  height: 120px;
+  background-color: #be791f;
+  position: absolute;
+}
+
+.left-ear {
+  top: -30px;
+  left: 10px;
+  border-radius: 50% 50% 0 0;
+}
+
+.right-ear {
+  top: -30px;
+  right: 10px;
+  border-radius: 50% 50% 0 0;
+}
+
+.ears-center {
+  width: 80px;
+  height: 80px;
+  background-color: #be791f;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nose {
+  width: 20px;
+  height: 20px;
+  background-color: #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mouth {
+  width: 80px;
+  height: 30px;
+  background-color: #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.eye {
+  width: 75px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  overflow: hidden;
+}
+
+.left-eye {
+  top: 25%;
+  left: 5%;
+}
+
+.right-eye {
+  top: 25%;
+  right: 5%;
+  animation: wink 2s infinite;
+}
+.pupil {
+  width:30px;
+  height: 15px;
+  top: 30%;
+  left: 25%;
+  border-radius: 50%;
+  background-color  : #000;
+  position: absolute;
+}
+@keyframes wink {
+  0%, 25%, 75%, 100% {
+    height: 40px;
+    top: 25%;
+  }
+  50% {
+    height: 0%;
+    top: 35%;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <h1>Cat Facts</h1>
+
+  <div class="cat-container">
+    <div class="cat-head">
+      <div class="left-ear"></div>
+      <div class="right-ear"></div>
+      <div class="ears-center">
+        <div class="nose"></div>
+      </div>
+      <div class="mouth"></div>
+      <div class="eye left-eye"> <div class="pupil"></div></div>
+      <div class="eye right-eye"><div class="pupil"></div></div>
+    </div>
+  </div>
+
+  <button onclick="otherFact()">Généré des faits sur les chat</button>
+  <p id="fact"></p>
+
+  <script>
+    var facts;
+   
+    function getLoadCatFact() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://catfact.ninja/facts", true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+           facts = response.data;
+          var randomFact = getRandomFact(facts);
+        }
+      };
+      xhr.send();
+    }
+
+    function getRandomFact(facts) {
+      var randomIndex = Math.floor(Math.random() * facts.length);
+      return facts[randomIndex].fact;
+    } 
+
+    function otherFact(){
+      var randomFact = getRandomFact(facts);
+      document.getElementById("fact").innerText = randomFact;
+    }
+    getLoadCatFact()
+  </script>
+</body>
+</html>
